@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>Crossroad-app test</title>
+
+    <script src="../../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../../src/Crossroad-app/Crossroad-app.html">
+  </head>
+  <body>
+    <test-fixture id="basic">
+      <template>
+        <Crossroad-app></Crossroad-app>
+      </template>
+    </test-fixture>
+
+    <script>
+      suite('Crossroad-app', function() {
+        test('instantiating the element works', function() {
+          var element = fixture('basic');
+          assert.equal(element.is, 'Crossroad-app');
+        });
+      });
+    </script>
+  </body>
+</html>
