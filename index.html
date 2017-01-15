@@ -11,10 +11,81 @@
     <link rel="manifest" href="/manifest.json">
 
     <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <!-- <link rel="import" href="/src/Crossroad-app/Crossroad-app.html"> -->
 
-    <link rel="import" href="/src/Crossroad-app/Crossroad-app.html">
+    <link rel="import" href="bower_components/polymer/polymer.html">
+    <link rel="import" href="bower_components/iron-icons/iron-icons.html">
+    <link rel="import" href="bower_components/paper-toolbar/paper-toolbar.html">
+    <link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+    <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
+    <link rel="import" href="bower_components/paper-fab/paper-fab.html">
+    <link rel="import" href="bower_components/paper-styles/paper-styles.html">
+    <link rel="import" href="bower_components/paper-card/paper-card.html">
+    <link rel="import" href="bower_components/paper-material/paper-material.html">
+    <!-- Cards -->
+    <link rel="import" href="src/weather-card.html">
+    <link rel="import" href="src/search-bar.html">
   </head>
-  <body>
-    <Crossroad-app></Crossroad-app>
+  <style>
+    body{
+      background: url("images/Austin (Evening).png");
+    }
+  </style>
+  <body class="fullbleed layout vertical">
+    <!--
+      Custon set of icons using PNGs from the lovely Naman Rastogi
+      https://material.uplabs.com/techguynr
+      This should make the icons I use in the weather card
+    -->
+<!--<iron-iconset name="weather" src="images/weather-icons.png" width="420" size="24"
+        icons="clear-day cloudy clear-night haze-day
+               mostly-cloudy-day haze haze-night mostly-cloudy-night
+               rain-snow partly-cloudy-night rain-snow-night rain
+               rain-night snow-day snow storm
+               thunder-night thunder-day storm-night storm-day
+               unknown thunder windy-night windy-day
+               windy">
+    </iron-iconset> -->
+
+
+    <paper-toolbar>
+      <iron-icon icon="menu"></iron-icon>
+    </paper-toolbar>
+    <style is="custom-style">
+
+      .big {
+        --iron-icon-height: 72px;
+        --iron-icon-width: 72px;
+      }
+    </style>
+    <div class="vertical layout">
+      <div class="container">
+        <div class="horizontal center-justified layout">
+          <search-bar></search-bar>
+        </div>
+      </div>
+      <div class="horizontal layout" style="height:100%">
+        <div class="flex-2 card-column">
+          <weather-card></weather-card>
+        </div>
+        <div class="flex-2 card-column">
+        </div>
+        <div class="flex-2 card-column">
+        </div>
+      </div>
+      <style is="custom-style">
+        paper-fab.blue {
+          --paper-fab-background: var(--paper-blue-500);
+          --paper-fab-keyboard-focus-background: var(--paper-blue-900);
+          position: fixed;
+          right: 25px;
+          bottom: 25px;
+        }
+      </style>
+    </div>
+    <paper-fab icon="icons:settings" title="settings" class="blue"></paper-fab>
+
+
+    <!--  https://plus.google.com/photos/+AtharvaWashimkar/albums/5891722540006243185 -->
   </body>
 </html>

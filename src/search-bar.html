@@ -1,0 +1,51 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+
+<dom-module id="search-bar">
+  <link rel="import" href="../bower_components/iron-icon">
+  <link rel="import" href="../bower_components/paper-input/paper-input.html">
+  <link rel="import" href="../bower_components/iron-input/iron-input.html">
+  <style>
+    :host {
+      margin: 20px 0 20px 0;
+      width: 45%;
+      display: block;
+    }
+    paper-card {
+      width: 100%;
+    }
+    .card-content{
+      padding: 7px;
+    }
+    paper-input{
+      width: 100%;
+      --paper-input-container-underline:
+        border-bottom: none;
+
+      --paper-input-container-underline-focus:
+        border-bottom: none;
+
+      --paper-input-container-label: {left: 10px; top: 2px};
+      --paper-input-container-input: {left: 10px; top: 1px};
+    }
+  </style>
+  <template>
+    <paper-card class="search-bar">
+      <div class="card-content">
+        <div class="horizontal layout center">
+          <paper-input label="Search" no-label-float>
+            <iron-icon icon="search" prefix></iron-icon>
+          </paper-input>
+
+        </div>
+
+      </div>
+    </paper-card>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'search-bar'
+    });
+  </script>
+</dom-module>

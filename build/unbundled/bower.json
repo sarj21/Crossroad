@@ -4,8 +4,7 @@
   "main": "index.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
-    "paper-elements": "PolymerElements/paper-elements#^1.0.7",
-    "iron-iconset": "PolymerElements/iron-iconset#^1.0.5"
+    "paper-elements": "PolymerElements/paper-elements#^1.0.7"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
