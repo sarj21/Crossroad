@@ -1,0 +1,69 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="main-cards">
+  <link rel="import" href="/bower_components/paper-styles/paper-styles.html">
+  <link rel="import" href="/bower_components/iron-image/iron-image.html">
+
+    <template>
+      <style>
+        :host {
+          display: block;
+          @apply(--layout-vertical);
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background-color: var(--paper-grey-100);
+        }
+      </style>
+      <iron-image id="background" preload fade src="{{background}}"></iron-image>
+    <!--  https://plus.google.com/photos/+AtharvaWashimkar/albums/5891722540006243185 -->
+  </template>
+
+    <script>
+        Polymer({
+            is: 'city-background',
+            properties: {
+                background: {
+                    type: String,
+                    value: "XXX"
+                }
+            },
+            ready: function() {
+                var cities = [
+                    "Austin",
+                    "Berlin",
+                    "Chicago",
+                    "Great Plains",
+                    "Honolulu",
+                    "London",
+                    "New York City",
+                    "Rocky Mountains",
+                    "San Francisco",
+                    "Seattle",
+                    "Tahoe"
+                ];
+
+                var tod;
+                var hour = (new Date).getHours();
+
+                switch (true) {
+                    case (hour < 8):
+                        tod = "Dawn";
+                        break;
+                    case (hour >= 8 && hour < 3):
+                        tod = "Day";
+                        break;
+                    case (hour >= 3 && hour < 8):
+                        tod = "Evening";
+                        break;
+                    case (hour >= 8):
+                        tod = "Night";
+                        break;
+                }
+
+                this.background = "/images/material-backgrounds/" + cities[Math.floor(Math.random() * 11)] + " (" + tod + ").png";
+            },
+
+        });
+    </script>
+</dom-module>

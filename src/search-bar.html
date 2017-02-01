@@ -2,50 +2,76 @@
 
 
 <dom-module id="search-bar">
-  <link rel="import" href="../bower_components/iron-icon">
-  <link rel="import" href="../bower_components/paper-input/paper-input.html">
-  <link rel="import" href="../bower_components/iron-input/iron-input.html">
-  <style>
-    :host {
-      margin: 20px 0 20px 0;
-      width: 45%;
-      display: block;
-    }
-    paper-card {
-      width: 100%;
-    }
-    .card-content{
-      padding: 7px;
-    }
-    paper-input{
-      width: 100%;
-      --paper-input-container-underline:
-        border-bottom: none;
+    <link rel="import" href="../bower_components/iron-icon">
+    <link rel="import" href="../bower_components/paper-input/paper-input.html">
+    <link rel="import" href="../bower_components/iron-input/iron-input.html">
+    <link rel="import" href="../bower_components/iron-form/iron-form.html">
+    <style>
+         :host {
+            margin: 20px 0 20px 0;
+            width: 45%;
+            display: block;
+        }
 
-      --paper-input-container-underline-focus:
-        border-bottom: none;
+        form {
+            width: 100%;
+        }
 
-      --paper-input-container-label: {left: 10px; top: 2px};
-      --paper-input-container-input: {left: 10px; top: 1px};
-    }
-  </style>
-  <template>
-    <paper-card class="search-bar">
+        paper-card {
+            width: 100%;
+        }
+
+        .card-content {
+            padding: 7px;
+        }
+
+        paper-input {
+            width: 100%;
+            --paper-input-container-underline: border-bottom: none;
+            --paper-input-container-underline-focus: border-bottom: none;
+            --paper-input-container-label: {
+                left: 10px;
+                top: 2px
+            }
+            ;
+            --paper-input-container-input: {
+                left: 10px;
+                top: 1px
+            }
+            ;
+        }
+
+        iron-icon {
+            right: 5px;
+        }
+    </style>
+    <template>
+    <paper-card>
       <div class="card-content">
         <div class="horizontal layout center">
-          <paper-input label="Search" no-label-float>
-            <iron-icon icon="search" prefix></iron-icon>
-          </paper-input>
-
+          <form is="iron-form" id="search" method="post">
+            <paper-input label="Search" name="query" no-label-float>
+              <iron-icon icon="search" onclick="_submit(event)" suffix></iron-icon>
+            </paper-input>
+          </form>
         </div>
-
       </div>
     </paper-card>
   </template>
 
-  <script>
-    Polymer({
-      is: 'search-bar'
-    });
-  </script>
+    <script>
+        Polymer({
+            is: 'search-bar',
+            listeners: {
+                'iron-form-submit': 'search'
+            },
+            _submit: function(e) {
+                Polymer.dom(event).localTarget.parentElement.submit();
+            },
+            search: function(e) {
+                var url = 'http://google.com/search?q=' + e.detail.query;
+                window.open(url);
+            }
+        });
+    </script>
 </dom-module>

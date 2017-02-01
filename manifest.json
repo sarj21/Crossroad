@@ -1,6 +1,6 @@
 {
-  "name": "Crossroad",
-  "short_name": "Crossroad",
+  "name": "Google Later",
+  "short_name": "Google Later",
   "description": "Google Now in a New Tab Layout",
   "start_url": "/",
   "display": "standalone"

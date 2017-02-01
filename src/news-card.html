@@ -1,0 +1,40 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html"> [
+
+
+<dom-module id="news-card">
+    <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+<iron-ajax
+  auto
+  url="https://newsapi.org/v1/articles?source=google-news&sortBy=top&apiKey=a68c1e27a5ce426389a3a540b0bd57de"
+  handle-as="json"
+  on-response="_whatsTheNews"></iron-ajax>
+
+  </template>
+    <script>
+        Polymer({
+            is: 'news-card',
+            properties: {
+                articles: {
+                    type: Array
+                },
+                debugNews: {}
+            },
+            _whatsTheNews: function(e) {
+                var news = e.detail.response;
+
+                var debugNews = news;
+                articles = {
+                    article1: {
+
+                    }
+                }
+            }
+        });
+    </script>
+</dom-module>]

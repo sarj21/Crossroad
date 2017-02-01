@@ -1,85 +1,328 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 
 <dom-module id="weather-card">
-  <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
-  <style include="iron-flex iron-flex-alignment"></style>
-  <link rel="import" href="../bower_components/iron-iconset/iron-iconset.html">
-  <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
-  <link rel="import" href="../bower_components/paper-styles/typography.html">
-  <iron-iconset name="weather" src="../images/weather-icons.png" width="72" size="72"
-                icons="0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29">
-  </iron-iconset>
-  <style>
-    :host {
-      width: 100%;
-      margin: 10px;
-      display: inline-block;
-    }
+    <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+    <style include="iron-flex iron-flex-alignment"></style>
+    <link rel="import" href="../bower_components/iron-iconset/iron-iconset.html">
+    <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+    <link rel="import" href="../bower_components/paper-styles/typography.html">
+    <link rel="import" href="../bower_components/paper-card/paper-card.html">
+    <link rel="import" href="./weather-tab.html">
+    <iron-iconset name="weather" src="../images/weather-icons-small.png" width="168" size="42" icons="01d 01n 02d 02n 03d 03n 04d 04n 09d 09n 10d 10n 11d 11n 13d 13n 50d 50n err err" </iron-iconset>
 
-    paper-card{
-      width: 100%;
-    }
-    iron-icon{
-      --iron-icon-height: 72px;
-      --iron-icon-width: 72px;
-      margin: 5% 20px 20% 0;
-    }
-    .info {
-      padding-right: 30px;
-    }
-    .location{
-      margin: 5px 0 10px 0;
-      font-size: 44px;
-      font-weight: 500;
-      line-height: 48px;
-    }
-    .current-temp{
-      font-size: 36px;
-      font-weight: 100;
-      color: var(--paper-grey-500);
-      margin-top: 20%;
-    }
-    .high,.low{
-      margin: 0 10px;
-      font-size: 24px;
-      font-weight: 200;
-      color: var(--paper-grey-700);
-    }
-    .datetime{
-      margin-top: 0px;
-      font-size: 12px;
-    }
-    .forecast{
-      margin: 0 10px;
-      font-size: 24px;
-    }
+        <style>
+             :host {
+                width: 100%;
+                min-width: 450px;
+                margin: 10px;
+                display: inline-block;
+            }
 
-  </style>
-  <template>
+            paper-card {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .card-content {
+                padding-bottom: 0px;
+            }
+
+            iron-icon {
+                --iron-icon-height: 72px;
+                --iron-icon-width: 72px;
+                margin: 15px 0px 15px 10px;
+                text-shadow: 2px;
+            }
+
+            .location {
+                margin: 0;
+                font-size: 24px;
+                font-weight: 500;
+                color: var(--paper-grey-600);
+            }
+
+            .datetime {
+                font-size: 16px;
+                color: var(--paper-grey-600);
+            }
+
+            .forecast {
+                font-size: 16px;
+                color: var(--paper-grey-600);
+                margin-bottom: 15px;
+                text-transform: capitalize;
+            }
+
+            .info {
+                color: var(--paper-grey-600);
+                margin-left: auto;
+            }
+
+            .current-temp {
+                font-size: 60px;
+                font-weight: 100;
+                margin: auto 10px;
+                display: inline-block;
+            }
+
+            .unit {
+                font-size: 24px;
+                vertical-align: top;
+            }
+
+            .divider {
+                width: 100%;
+                opacity: 0.2;
+                margin: 40px 0 5px 0;
+            }
+        </style>
+        <template>
+<!-- {{weatherResponse}}  -->
+      <iron-ajax
+      auto
+      url="{{weatherUrl}}"
+       handle-as="json"
+       on-response="_formatWeatherResponse">
+      </iron-ajax>
+
+      <iron-ajax
+       auto
+       url="{{fiveDayUrl}}"
+       handle-as="json"
+       on-response="_formatFiveDayWeatherResponse">
+      </iron-ajax>
+
+      <iron-ajax
+        auto
+        url="{{mapsUrl}}"
+        handle-as="json"
+        on-response="_formatLocation">
+        </iron-ajax>
     <paper-card>
       <div class="card-content">
-        <div class="layout horizontal">
           <div class="layout vertical">
-            <h3 class="location"> Erie, PA </h3>
-            <div class="layout horizontal center">
-                <iron-icon icon="weather:1"></iron-icon>
-                <h5 class="current-temp"> -4&deg;{{unit}}</h5>
-            </div>
-            <div class="layout horizontal">
-                <p class="high"> 34&deg; </p>  <p class="low"> -6&deg; </p>
-            </div>
-            <h4 class="forecast"> Mostly Cloudy </h4>
+              <h3 class="location">{{location}}</h3>
+              <span class="datetime"> [[_weekday()]] {{weather.time}}</span>
+              <span class="forecast"> {{weather.condition}} </span>
+
+              <div class="layout horizontal center">
+                <div>
+                  <iron-icon icon="weather:{{weather.icon}}"></iron-icon>
+                </div>
+                  <h5 class="current-temp"> 28<span class="unit">&deg;{{unitsDisp.letter}}</span></h5>
+                  <div class="layout vertical info">
+                      <span>Precipitation: {{precipitation}}%</span>
+                      <span>Wind: {{weather.wind}} {{unitsDisp.speed}}</span>
+                      <span>Humidity: {{weather.humidity}}%</span>
+                  </div>
+              </div>
+              <hr class="divider"/>
+              <div class="layout horizontal center five-day">
+                <weather-tab high="{{fiveDay.day1.high}}" low="{{fiveDay.day1.low}}" icon="{{fiveDay.day1.icon}}" weekday="{{fiveDay.day1.weekday}}"></weather-tab>
+                <weather-tab high="{{fiveDay.day2.high}}" low="{{fiveDay.day2.low}}" icon="{{fiveDay.day2.icon}}" weekday="{{fiveDay.day2.weekday}}"></weather-tab>
+                <weather-tab high="{{fiveDay.day3.high}}" low="{{fiveDay.day3.low}}" icon="{{fiveDay.day3.icon}}" weekday="{{fiveDay.day3.weekday}}"></weather-tab>
+                <weather-tab high="{{fiveDay.day4.high}}" low="{{fiveDay.day4.low}}" icon="{{fiveDay.day4.icon}}" weekday="{{fiveDay.day4.weekday}}"></weather-tab>
+                <weather-tab high="{{fiveDay.day5.high}}" low="{{fiveDay.day5.low}}" icon="{{fiveDay.day5.icon}}" weekday="{{fiveDay.day5.weekday}}"></weather-tab>
+              </div>
           </div>
-          <div class="flex-4">
-          </div>
-        </div>
       </div>
     </paper-card>
-  </template>
 
-  <script>
-    Polymer({
-      is: 'weather-card'
-    });
-  </script>
+    </template>
+
+        <script>
+            Polymer({
+                is: 'weather-card',
+                properties: {
+                    lon: {},
+                    lat: {},
+                    units: {
+                        type: String,
+                        value: 'imperial'
+                    },
+                    unitsDisp: {
+                        type: Array,
+                        value: {
+                            letter: 'F',
+                            speed: 'mph'
+                        }
+                    },
+                    weatherUrl: {
+                        computed: 'generateWeatherRequest(lat, lon, units)'
+                    },
+                    fiveDayUrl: {
+                        computed: 'generateFiveDayWeatherRequest(lat, lon, units)'
+                    },
+                    mapsUrl: {
+                        computed: 'generateMapsRequest(lat, lon)'
+                    },
+                    location: {
+                        type: String,
+                        value: 'New York, NY 11111',
+                        notify: true
+                    },
+                    weather: {
+                      icon: "err"
+                    }, //set with response
+                    fiveDay: {
+                        type: Array,
+                        value: {}
+                    },
+                    debug: {}
+
+                },
+                generateWeatherRequest: function(lat, lon, units) {
+                    console.log(['http://api.openweathermap.org/data/2.5/weather?', 'lat=' + lat, 'lon=' + lon, 'units=' + units, 'APPID=4128da53cc2d057e58fe94de8f412267'].join('&'));
+                    return ['http://api.openweathermap.org/data/2.5/weather?', 'lat=' + lat, 'lon=' + lon, 'units=' + units, 'APPID=4128da53cc2d057e58fe94de8f412267'].join('&');
+                },
+                generateFiveDayWeatherRequest: function(lat, lon, units) {
+                    console.log(['http://api.openweathermap.org/data/2.5/forecast/daily?', 'lat=' + lat, 'lon=' + lon, 'units=' + units, 'APPID=4128da53cc2d057e58fe94de8f412267'].join('&'));
+                    return ['http://api.openweathermap.org/data/2.5/forecast/daily?', 'lat=' + lat, 'lon=' + lon, 'units=' + units, 'APPID=4128da53cc2d057e58fe94de8f412267'].join('&');
+                },
+                generateMapsRequest: function(lat, lon) {
+                    return 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lon + '&sensor=false';
+                    //geolocation API Key: AIzaSyAh9lPOQRvMps6rpAU--hefr-S5BktFBzQ
+
+                },
+                getUserLocation: function(pos) {
+                    this.lat = pos.coords.latitude;
+                    this.lon = pos.coords.latitude;
+                },
+                _formatLocation: function(e) {
+                    var city, state, zip; //the info we need to show
+                    var results = e.detail.response.results; //Get the results array from the google maps api
+                    for (var i = 0; i < results[0].address_components.length; i++) {
+                        for (var j = 0; j < results[0].address_components[i].types.length; j++) {
+                            if (results[0].address_components[i].types[j] == "administrative_area_level_1") {
+                                state = results[0].address_components[i].short_name;
+                            } else if (results[0].address_components[i].types[j] == "locality") {
+                                city = results[0].address_components[i].short_name;
+                            } else if (results[0].address_components[i].types[j] == "postal_code") {
+                                zip = results[0].address_components[i].short_name;
+                            }
+
+                            if (typeof city !== 'undefined' && typeof state !== 'undefined' && typeof zip !== 'undefined') {
+                                break;
+                            }
+                        }
+                    }
+                    this.location = city + ', ' + state + ' ' + zip;
+                },
+                _formatWeatherResponse: function(e) {
+                    var current = e.detail.response; //first item is current
+
+                    function prettyTime(i) {
+                        var hh = i.getHours();
+                        var dd = "AM";
+                        var h = hh;
+                        if (h >= 12) {
+                            h = hh - 12;
+                            dd = "PM";
+                        }
+                        if (h == 0) {
+                            h = 12;
+                        }
+
+                        return parseInt(h, 10) + ':00 ' + dd;
+                    };
+
+
+                    if (this.units === "imperial") {
+                        this.unitsDisp = {
+                            letter: 'F',
+                            speed: 'mph'
+                        };
+                    } else if (this.units === "metric") {
+                        this.unitsDisp = {
+                            letter: 'C',
+                            speed: 'm/s'
+                        };
+                    }
+
+                    this.weather = {
+                        icon: current.weather[0].icon,
+                        time: prettyTime(new Date(current.dt)),
+                        condition: current.weather[0].main,
+                        temp: Math.round(current.main.temp),
+                        humidity: current.main.humidity,
+                        wind: current.wind.speed
+                    };
+
+                },
+                _formatFiveDayWeatherResponse: function(e) {
+                    var response = e.detail.response.list; //first item is current
+
+                    function getDay(offset) {
+
+                        var day = [
+                            "Sun",
+                            "Mon",
+                            "Tues",
+                            "Wed",
+                            "Thur",
+                            "Fri",
+                            "Sat"
+                        ];
+
+                        var today = (new Date()).getDay() + offset;
+
+                        if (today > 6) {
+                            today -= 7;
+                        }
+                        return day[today];
+                    }
+                    this.fiveDay = {
+                        day1: {
+                            weekday: getDay(1),
+                            icon: response[1].weather[0].icon,
+                            high: Math.round(response[1].temp.max),
+                            low: Math.round(response[1].temp.min)
+                        },
+                        day2: {
+                            weekday: getDay(2),
+                            icon: response[2].weather[0].icon,
+                            high: Math.round(response[2].temp.max),
+                            low: Math.round(response[2].temp.min)
+                        },
+                        day3: {
+                            weekday: getDay(3),
+                            icon: response[3].weather[0].icon,
+                            high: Math.round(response[3].temp.max),
+                            low: Math.round(response[3].temp.min)
+                        },
+                        day4: {
+                            weekday: getDay(4),
+                            icon: response[4].weather[0].icon,
+                            high: Math.round(response[4].temp.max),
+                            low: Math.round(response[4].temp.min)
+                        },
+                        day5: {
+                            weekday: getDay(5),
+                            icon: response[5].weather[0].icon,
+                            high: Math.round(response[5].temp.max),
+                            low: Math.round(response[5].temp.min)
+                        }
+                    };
+                },
+                _weekday: function() {
+                    var d = new Date();
+                    var weekday = new Array(7);
+                    weekday[0] = "Sunday";
+                    weekday[1] = "Monday";
+                    weekday[2] = "Tuesday";
+                    weekday[3] = "Wednesday";
+                    weekday[4] = "Thursday";
+                    weekday[5] = "Friday";
+                    weekday[6] = "Saturday";
+
+                    return weekday[d.getDay()];
+                },
+                ready: function() {
+                    if (typeof(this.lat) == "undefined" && typeof(this.lon) == "undefined") {
+                        navigator.geolocation.getCurrentPosition(this.getUserLocation.bind(this));
+                    }
+                }
+            });
+        </script>
 </dom-module>
