@@ -1,40 +1,181 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html"> [
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 
 
 <dom-module id="news-card">
     <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-<iron-ajax
-  auto
-  url="https://newsapi.org/v1/articles?source=google-news&sortBy=top&apiKey=a68c1e27a5ce426389a3a540b0bd57de"
-  handle-as="json"
-  on-response="_whatsTheNews"></iron-ajax>
+      <link rel="import" href="/bower_components/paper-card/paper-card.html">
+      <link rel="import" href="/bower_components/paper-toolbar/paper-toolbar.html">
+      <link rel="import" href="/bower_components/paper-button/paper-button.html">
+      <style>
+        :host {
+          width: 31%;
+          min-width: 450px;
+          margin: 1%;
+          display: block;
+        }
+        paper-card {
+            width: 100%;
+        }
+        .card-content{
+          padding: 0;
+        }
+        a{
+          text-decoration: none;
+          color: black;
+        }
+      </style>
+      <iron-ajax
+      auto
+      url="https://newsapi.org/v1/articles?source=google-news&sortBy=top&apiKey=a68c1e27a5ce426389a3a540b0bd57de"
+      method="GET"
+      handle-as="json"
+      on-response="_whatsTheNews">
 
-  </template>
+      </iron-ajax>
+        <div class="vertical layout">
+          <paper-card>
+            <paper-toolbar>
+              <svg style="width:24px;height:24px;margin-right:5px;" viewBox="0 0 24 24">
+                  <path fill="#ffffff" d="M20,11H4V8H20M20,15H13V13H20M20,19H13V17H20M11,19H4V13H11M20.33,4.67L18.67,3L17,4.67L15.33,3L13.67,4.67L12,3L10.33,4.67L8.67,3L7,4.67L5.33,3L3.67,4.67L2,3V19A2,2 0 0,0 4,21H20A2,2 0 0,0 22,19V3L20.33,4.67Z" />
+              </svg>
+
+              <div>Top Stories</div>
+            </paper-toolbar>
+            <div class="card-content">
+                <article-card article="{{news.article1}}"></article-card>
+                <article-card article="{{news.article2}}"></article-card>
+                <article-card article="{{news.article3}}"></article-card>
+                <article-card article="{{news.article4}}"></article-card>
+            </div>
+            <div class="card-actions">
+                <div class="layout horizontal">
+                  <div class="flex"></div>
+                  <a href="https://newsapi.org" style="height: 100%;">
+                    <paper-button style="font-size: 10px;">
+                    powered by News API
+                  </paper-button>
+                </a>
+              </div>
+            </div>
+          </paper-card>
+        </div>
+    </template>
     <script>
         Polymer({
             is: 'news-card',
             properties: {
-                articles: {
+                news: {
                     type: Array
-                },
-                debugNews: {}
+                }
             },
             _whatsTheNews: function(e) {
-                var news = e.detail.response;
-
-                var debugNews = news;
-                articles = {
-                    article1: {
-
-                    }
+                var response = e.detail.response;
+                //check response ok
+                if (!(response.status === "ok")) {
+                    console.log("News API responded with an error");
+                    return;
                 }
+
+                this.news = {
+                    article1: response.articles[0],
+                    article2: response.articles[1],
+                    article3: response.articles[2],
+                    article4: response.articles[3],
+                    article5: response.articles[4]
+                };
             }
         });
     </script>
-</dom-module>]
+</dom-module>
+
+<dom-module id="article-card">
+    <template>
+      <link rel="import" href="/bower_components/paper-card/paper-card.html">
+
+      <link rel="import" href="/bower_components/iron-image/iron-image.html">
+    <style>
+      :host {
+        display: flex;
+        margin: 1px 0;
+        width: 100%;
+      }
+      iron-image{
+        margin: 5px;
+      }
+      paper-card {
+        width: 100%;
+      }
+      iron-image{
+        min-height: 90px;
+        min-width: 90px;
+      }
+      a{
+        text-decoration: none;
+        color: black;
+      }
+      .card-content{padding: 5px}
+      .article-title{@apply(--paper-font-headline); font-size: 16px; line-height: normal; padding-top: 10px;}
+      .timestamp{color:var(--paper-grey-600); font-size: 14px; padding-left: 1px;}
+      .src{color:var(--paper-green-600)}
+      .desc{color:var(--paper-grey-600); font-size: 14px; margin: 5px 2px}
+    </style>
+    <a href="{{article.url}}"  style="width: 100%;">
+
+    <paper-card>
+      <div class="card-content">
+        <div class="vertical layout center" style="width: 100%;">
+          <div class="horizontal layout" style="width: 100%;">
+            <iron-image sizing="cover" src="[[article.urlToImage]]"></iron-image>
+            <div class="vertical layout" style="padding-left: 5px;">
+              <div class="article-title"> [[article.title]] </div>
+              <div class="timestamp"> <span class="src"> Google News &mdash; </span> [[relTime]]</div>
+              <div class="desc">[[article.description]]</div>
+            </div>
+            <div class="flex"></div>
+          </div>
+        </div>
+      </div>
+    </paper-card>
+  </a>
+
+  </template>
+    <script>
+        Polymer({
+            is: 'article-card',
+            properties: {
+                article: {
+                    type: Array
+                },
+                relTime: {
+                    computed: 'computeTime(article)'
+                }
+            },
+            computeTime: function(article) {
+                //NewsAPI gives a pretty ugly standard timestamp
+                //lets convert it to something like "posted X hours ago";
+                var timestamp = new Date(article.publishedAt); //the timestamp version
+                var now = new Date();
+                var ago = now.getHours() - timestamp.getHours();
+
+                if (ago >= 24) {
+                    ago = Math.round(ago / 24);
+                    var timeVar = ' day'
+                } else {
+                    var timeVar = ' hour';
+                }
+
+                if (ago == 0) { //if its 0 hours, lets try minutes
+                    ago = now.getMinutes() - timestamp.getMinutes();
+                    var timeVar = ' minute';
+                }
+
+                if (ago != 1) {
+                    timeVar += 's';
+                }
+
+                return (ago + timeVar + ' ago');
+            }
+        });
+    </script>
+</dom-module>
