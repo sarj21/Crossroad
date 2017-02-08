@@ -1,12 +1,14 @@
 {
-  "name": "Crossroad",
+  "name": "Google-Later",
   "description": "Google Now in a New Tab Layout",
   "main": "index.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
     "paper-elements": "PolymerElements/paper-elements#^1.0.7",
     "iron-iconset": "PolymerElements/iron-iconset#^1.0.5",
-    "iron-form": "PolymerElements/iron-form#^1.1.4"
+    "iron-form": "PolymerElements/iron-form#^1.1.4",
+    "iron-pages": "PolymerElements/iron-pages#^1.0.8",
+    "iron-a11y-keys": "PolymerElements/iron-a11y-keys#^1.0.6"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
