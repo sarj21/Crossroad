@@ -1,0 +1,139 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+<dom-module id="reddit-card">
+  <template>
+    <link rel="import" href="/bower_components/paper-card/paper-card.html">
+    <link rel="import" href="/bower_components/paper-toolbar/paper-toolbar.html">
+    <link rel="import" href="/bower_components/iron-image/iron-image.html">
+    <link rel="import" href="/bower_components/iron-icons/communication-icons.html">
+    <link rel="import" href="/bower_components/paper-styles/paper-styles.html">
+    <iron-ajax
+      auto
+      url="http://www.reddit.com/.json"
+      handle-as="json"
+      on-response="_parseReddit"></iron-ajax>
+    <style>
+      :host {
+        width: 31%;
+        min-width: 450px;
+        margin: 1%;
+        display: block;
+      }
+      paper-card {
+          width: 100%;
+      }
+      iron-icon{
+        min-height: 70px;
+        min-width: 70px;
+        padding: 10px;
+      }
+      a{
+        text-decoration: none;
+        color: black;
+      }
+      .card-content iron-image{
+        min-height: 90px;
+        min-width: 90px;
+      }
+      .box{
+        padding: 5px 0;
+        border-bottom: 1px solid #e8e8e8;
+      }
+      .title{
+        @apply(--paper-font-body2);
+        font-size: 16px;
+
+      }
+      .subtitle{
+        @apply(--paper-font-subtitle);
+        font-size: 14px;
+        color: var(--paper-grey-600);
+      }
+      .domain{
+        @apply(--paper-font-caption);
+      }
+    </style>
+    <paper-card>
+      <paper-toolbar class="center" style="background: #cee3f8"> <!-- reddit blue -->
+        <iron-image src="/images/snoo.ico" style="padding-right: 5px;"></iron-image>
+        <div style="color: black">Reddit</div>
+      </paper-toolbar>
+      <div class="card-content">
+        <template is="dom-repeat" items="{{posts}}">
+          <a href="{{item.url}}">
+            <div class="box">
+              <div class="layout horizontal">
+                <div class="layout horizontal center" style="padding-right: 15px;">
+                  <iron-image src="{{item.image}}" preload sizing="cover" hidden="[[_hasImage(index)]]"></iron-image>
+                  <iron-icon icon="communication:comment" hidden="[[!_hasImage(index)]]"></iron-icon>
+                </div>
+                <div class="layout vertical">
+                  <div class="title">{{item.title}} <span class="domain">({{item.domain}})</span> </div>
+                  <div class="subtitle"> submitted to /r/{{item.subreddit}}</div>
+                  <div class="subtitle"> <a href="http://reddit.com/{{item.permalink}}">comments ({{item.comments}})</a></div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </template>
+      </div>
+    </paper-card>
+  </template>
+  <script>
+    Polymer({
+      is: 'reddit-card',
+      properties: {
+        posts: {
+          type: Array,
+          value: []
+        }
+      },
+      _parseReddit: function(e){
+        // function timeSince(date) {
+        //   console.log(date);
+        //   var seconds = Math.floor((new Date() - date) / 1000);
+        //
+        //   var interval = Math.floor(seconds / 86400);
+        //
+        //   if (interval > 1) {
+        //       return interval + " days";
+        //   }
+        //   interval = Math.floor(seconds / 3600);
+        //   if (interval > 1) {
+        //       return interval + " hours";
+        //   }
+        //   interval = Math.floor(seconds / 60);
+        //   if (interval > 1) {
+        //       return interval + " minutes";
+        //   }
+        //   return Math.floor(seconds) + " seconds";
+        // }
+
+        function dotdotdot(str){
+          if(str.split(" ").length > 30){
+            return str.split(" ").slice(0,30).join(" ") + "...";
+          }
+          else{
+            return str;
+          }
+        }
+
+        var response = e.detail.response.data.children.slice(0,3);
+        for (var i = 0; i < response.length; i++) {
+          this.push('posts', {
+            title: dotdotdot(response[i].data.title),
+            image: response[i].data.thumbnail,
+            domain: response[i].data.domain,
+            subreddit: response[i].data.subreddit,
+            url: response[i].data.url,
+            comments: response[i].data.num_comments,
+            permalink: response[i].data.permalink
+          });
+        }
+      },
+      _hasImage: function(index){
+        return (this.posts[index].image == "default");
+      }
+    });
+  </script>
+</dom-module>
