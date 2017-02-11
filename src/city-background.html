@@ -1,6 +1,6 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/polymer/polymer.html">
 
-<dom-module id="main-cards">
+<dom-module id="city-background">
   <link rel="import" href="/bower_components/paper-styles/paper-styles.html">
   <link rel="import" href="/bower_components/iron-image/iron-image.html">
 
@@ -8,14 +8,18 @@
       <style>
         :host {
           display: block;
-          @apply(--layout-vertical);
           position: absolute;
+          overflow: hidden;
           width: 100%;
           height: 100%;
           background-color: var(--paper-grey-100);
         }
+        #background{
+          height: 100vh;
+          width: 100%;
+        }
       </style>
-      <iron-image id="background" preload fade src="{{background}}"></iron-image>
+      <iron-image id="background" preload fade src="{{background}}" sizing="cover"></iron-image>
     <!--  https://plus.google.com/photos/+AtharvaWashimkar/albums/5891722540006243185 -->
   </template>
 

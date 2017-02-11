@@ -7,6 +7,7 @@
       <link rel="import" href="/bower_components/paper-card/paper-card.html">
       <link rel="import" href="/bower_components/paper-toolbar/paper-toolbar.html">
       <link rel="import" href="/bower_components/paper-button/paper-button.html">
+      <link rel="import" href="/bower_components/paper-styles/paper-styles.html">
       <style>
         :host {
           width: 31%;
@@ -15,7 +16,7 @@
           display: block;
         }
         paper-card {
-            width: 100%;
+          width: 100%;
         }
         .card-content{
           padding: 0;
@@ -24,6 +25,22 @@
           text-decoration: none;
           color: black;
         }
+        iron-image{
+          margin: 5px;
+        }
+        .article{
+          border-bottom: 1px solid var(--paper-grey-300);
+        }
+        .article iron-image{
+          min-width: 100px;
+          min-height: 50px;
+        }
+        .article paper-button{ text-transform: none; padding: 0}
+        .article .card-content{padding: 5px}
+        .article .article-title{@apply(--paper-font-headline); font-size: 16px; line-height: normal; padding-top: 10px;}
+        .article .timestamp{color:var(--paper-grey-600); font-size: 14px; padding-left: 1px;}
+        .article .src{color:var(--paper-green-600)}
+        .article .desc{color:var(--paper-grey-600); font-size: 14px; margin: 5px 2px}
       </style>
       <iron-ajax
       auto
@@ -43,10 +60,31 @@
               <div>Top Stories</div>
             </paper-toolbar>
             <div class="card-content">
-                <article-card article="{{news.article1}}"></article-card>
+              <template is="dom-repeat" items="{{news}}">
+                <div class="article">
+                    <a href="{{item.url}}"  style="width: 100%;">
+                    <paper-button>
+                      <div class="card-content">
+                        <div class="vertical layout center" style="width: 100%;">
+                          <div class="horizontal layout" style="width: 100%;">
+                            <iron-image sizing="cover" src="{{item.urlToImage}}"></iron-image>
+                            <div class="vertical layout" style="padding-left: 5px;">
+                              <div class="article-title"> {{item.title}} </div>
+                              <div class="timestamp"> <span class="src"> Google News &mdash; </span> [[_relTime(item)]]</div>
+                              <div class="desc">{{item.description}}</div>
+                            </div>
+                            <div class="flex"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </paper-button>
+                  </a>
+                </div>
+              </template>
+                <!-- <article-card article="{{news.article1}}"></article-card>
                 <article-card article="{{news.article2}}"></article-card>
                 <article-card article="{{news.article3}}"></article-card>
-                <article-card article="{{news.article4}}"></article-card>
+                <article-card article="{{news.article4}}"></article-card> -->
             </div>
             <div class="card-actions">
                 <div class="layout horizontal">
@@ -77,81 +115,9 @@
                     return;
                 }
 
-                this.news = {
-                    article1: response.articles[0],
-                    article2: response.articles[1],
-                    article3: response.articles[2],
-                    article4: response.articles[3],
-                    article5: response.articles[4]
-                };
-            }
-        });
-    </script>
-</dom-module>
-
-<dom-module id="article-card">
-    <template>
-      <link rel="import" href="/bower_components/paper-card/paper-card.html">
-
-      <link rel="import" href="/bower_components/iron-image/iron-image.html">
-    <style>
-      :host {
-        display: flex;
-        margin: 1px 0;
-        width: 100%;
-      }
-      iron-image{
-        margin: 5px;
-      }
-      paper-card {
-        width: 100%;
-      }
-      iron-image{
-        min-height: 90px;
-        min-width: 90px;
-      }
-      a{
-        text-decoration: none;
-        color: black;
-      }
-      .card-content{padding: 5px}
-      .article-title{@apply(--paper-font-headline); font-size: 16px; line-height: normal; padding-top: 10px;}
-      .timestamp{color:var(--paper-grey-600); font-size: 14px; padding-left: 1px;}
-      .src{color:var(--paper-green-600)}
-      .desc{color:var(--paper-grey-600); font-size: 14px; margin: 5px 2px}
-    </style>
-    <a href="{{article.url}}"  style="width: 100%;">
-
-    <paper-card>
-      <div class="card-content">
-        <div class="vertical layout center" style="width: 100%;">
-          <div class="horizontal layout" style="width: 100%;">
-            <iron-image sizing="cover" src="[[article.urlToImage]]"></iron-image>
-            <div class="vertical layout" style="padding-left: 5px;">
-              <div class="article-title"> [[article.title]] </div>
-              <div class="timestamp"> <span class="src"> Google News &mdash; </span> [[relTime]]</div>
-              <div class="desc">[[article.description]]</div>
-            </div>
-            <div class="flex"></div>
-          </div>
-        </div>
-      </div>
-    </paper-card>
-  </a>
-
-  </template>
-    <script>
-        Polymer({
-            is: 'article-card',
-            properties: {
-                article: {
-                    type: Array
-                },
-                relTime: {
-                    computed: 'computeTime(article)'
-                }
+                this.news = response.articles.slice(0,4);
             },
-            computeTime: function(article) {
+            _relTime: function(article) {
                 //NewsAPI gives a pretty ugly standard timestamp
                 //lets convert it to something like "posted X hours ago";
                 var timestamp = new Date(article.publishedAt); //the timestamp version
