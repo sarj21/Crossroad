@@ -1,0 +1,96 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<dom-module id="bookmarks-card">
+  <template>
+    <link rel="import" href="/bower_components/paper-card/paper-card.html">
+    <link rel="import" href="/bower_components/iron-image/iron-image.html">
+    <link rel="import" href="/bower_components/paper-button/paper-button.html">
+    <link rel="import" href="/bower_components/paper-toolbar/paper-toolbar.html">
+    <link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+
+    <link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+    <style include="iron-flex iron-flex-alignment"></style>
+
+    <style>
+      :host {
+        width: 31%;
+        min-width: 450px;
+        margin: 1%;
+        display: block;
+      }
+      paper-card {
+        width: 100%;
+      }
+      iron-image{
+        height: 50px;
+        width: 50px;
+      }
+      a{
+        width: 25%;
+        text-decoration: none;
+        color: black;
+      }
+      paper-button{
+        margin: 5px;
+      }
+      iron-icon{
+        padding-right: 2px;
+      }
+      .name{
+        @apply(--paper-font-title);
+        color: var(--paper-grey-700);
+        padding-top: 15px;
+        text-transform: none;
+      }
+    </style>
+    <paper-card>
+      <paper-toolbar>
+        <iron-icon icon="icons:link"></iron-icon>
+         <div>Bookmarks</div>
+       </paper-toolbar>
+
+      <div class="card-content">
+        <div class="layout horizontal wrap" width="100%">
+          <div class="flex">
+          </div>
+          <template is="dom-repeat" items="{{bookmarks}}">
+              <a href="{{item.link}}">
+                <paper-button class="layout vertical center">
+                    <iron-image src="https://icons.better-idea.org/icon?url={{item.link}}&size=50..64..120" preload sizing="cover">
+                    </iron-image>
+                    <div class="name" hidden="{{!show_names}}"> {{item.name}} </div>
+                </paper-button>
+              </a>
+          </template>
+          <div class="flex">
+          </div>
+        </div>
+      </div>
+    </paper-card>
+  </template>
+  <script>
+    Polymer({
+      is: 'bookmarks-card',
+      properties: {
+        bookmarks: {
+          type: Array,
+          value: [
+            {
+              link: "http://reddit.com",
+              name: "Reddit"
+            },
+            {
+              link: "http://github.com",
+              name: "GitHub"
+            }
+
+          ]
+        },
+        show_names: {
+          type: Boolean,
+          value: false
+        }
+      }
+    });
+  </script>
+</dom-module>
