@@ -3,42 +3,79 @@
 <dom-module id="later-settings">
     <template>
     <link rel="import" href="/bower_components/paper-styles/paper-styles.html">
+    <link rel="import" href="card-iconset.html">
+    <link rel="import" href="weather-iconset.html">
 
     <link rel="import" href="/bower_components/paper-card/paper-card.html">
     <link rel="import" href="/bower_components/paper-input/paper-input.html">
     <link rel="import" href="/bower_components/paper-item/paper-item.html">
     <link rel="import" href="/bower_components/paper-checkbox/paper-checkbox.html">
+    <link rel="import" href="/bower_components/paper-toggle-button/paper-toggle-button.html">
     <link rel="import" href="/bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+      <link rel="import" href="../../paper-listbox/paper-listbox.html">
     <link rel="import" href="/bower_components/paper-button/paper-button.html">
+
+    <link rel="import" href="/bower_components/iron-icons/iron-icons.html">
     <link rel="import" href="/bower_components/google-signin/google-signin.html">
 
     <link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout-classes.html">
-    <style is="custom-style" include="iron-flex iron-flex-alignment" />
+    <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
     <style>
       :host {
         display: block;
         height: 100%;
         background-color: var(--paper-grey-300);
       }
+      .main{
+        width: 35%;
+        margin: 0 auto;
+      }
+      .sub{
+        width: 100%;
+      }
       paper-card{
-        min-width: 650px;
+        width: 100%;
       }
       .card-content{
         padding: 0px;
       }
       .card-title{
-        padding-top: 25px;
-        padding-bottom: 10px;
+        padding-top: 30px;
+        padding-bottom: 15px;
         color: var(--paper-grey-700);
-        @apply(--paper-font-body1);
+        @apply(--paper-font-title);
       }
       .box{
         padding: 15px 25px;
         border-bottom: 1px solid #e8e8e8;
       }
+      paper-card.selected-cards {
+        padding: 0px;
+      }
+      /*.selected-cards paper-card{
+        height: 200px;
+        width: 170px;
+      }*/
+      .selected-cards iron-icon{
+        height: 70px;
+        width: 70px;
+        padding: 10px 30px;
+        padding-left: 0;
+      }
+      .card-name{
+        @apply(--paper-font-headline);
+      }
+      .card-desc{
+        color: var(--paper-grey-500);
+      }
+      .settings-section{
+        padding: 10px 60px;
+        border-bottom: 1px solid var(--paper-grey-300);
+      }
+
     </style>
-    <div class="vertical layout center">
-        <div class="vertical layout">
+    <div class="vertical layout center main">
+        <div class="vertical layout sub">
           <div class="card-title"> Personal Info </div>
           <paper-card>
             <div class="card-content">
@@ -56,13 +93,76 @@
             </div>
           </paper-card>
         </div>
-        <div class="vertical layout">
+        <div class="vertical layout sub">
           <div class="card-title"> Cards </div>
-          <paper-card>
+          <paper-card class="selected-cards">
             <div class="card-content">
-              <form is="iron-form" method="get" action="/">
-                <paper-input name="name" label="Name" class="box" required></paper-input>
+              <div class="vertical layout">
+                <div class="horizontal layout center settings-section">
+                  <iron-icon icon="cards:weather"></iron-icon>
+                  <div class="vertical layout">
+                    <div class="card-name">Weather</div>
+                    <div class="card-desc">Local weather data and a five day forecast</div>
+                  </div>
+                  <div class="flex">
 
+                  </div>
+                  <paper-toggle-button checked></paper-toggle-button>
+
+                </div>
+                <div class="horizontal layout center settings-section">
+                  <iron-icon icon="cards:news" style="fill: #78909C"></iron-icon>
+                  <div class="vertical layout">
+                    <div class="card-name">Google News</div>
+                    <div class="card-desc">Top stories trending on Google News</div>
+                  </div>
+                  <div class="flex">
+
+                  </div>
+                  <paper-toggle-button checked></paper-toggle-button>
+
+                </div>
+                <div class="horizontal layout center settings-section">
+                    <iron-icon icon="cards:reddit" style="fill: #64B5F6"></iron-icon>
+                    <div class="vertical layout">
+                        <div class="card-name">Reddit</div>
+                        <div class="card-desc">A few top posts from Reddit</div>
+                    </div>
+                    <div class="flex">
+
+                    </div>
+                    <paper-toggle-button checked></paper-toggle-button>
+
+                </div>
+                <div class="horizontal layout center settings-section">
+                    <iron-icon icon="icons:link"></iron-icon>
+                    <div class="vertical layout">
+                        <div class="card-name">Bookmarks</div>
+                        <div class="card-desc">Quick access links</div>
+                    </div>
+                    <div class="flex">
+
+                    </div>
+                    <paper-toggle-button checked></paper-toggle-button>
+
+                </div>
+                <div class="horizontal layout center settings-section">
+                    <iron-icon icon="cards:background" style="fill: #64B5F6"></iron-icon>
+                    <div class="vertical layout">
+                        <div class="card-name">Backgrounds</div>
+                        <div class="card-desc">Choose where the background comes from</div>
+                    </div>
+                    <div class="flex">
+
+                    </div>
+                    <paper-dropdown-menu label="Background">
+                       <paper-listbox class="dropdown-content" selected="0">
+                         <paper-item>Material Cities</paper-item>
+                         <paper-item>Reddit r/EarthPorn</paper-item>
+                      </paper-listbox>
+                    </paper-dropdown-menu>
+                </div>
+              </div>
                 <!-- <div>Sign into your Google Account</div>
                 <google-signin
                 client-id = "945473459269-tt6r6hkikvgbo291gi3p9lp6cmikq7e6.apps.googleusercontent.com"
@@ -70,7 +170,6 @@
                 is-authorized = "{{isAuthorized}}"
                 signed-in = "{{signedIn}}">
               </google-signin> -->
-              </form>
             </div>
           </paper-card>
         </div>

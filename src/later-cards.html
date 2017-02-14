@@ -1,0 +1,74 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<dom-module id="later-cards">
+    <template>
+      <link rel="import" href="/bower_components/paper-fab/paper-fab.html">
+      <link rel="import" href="/bower_components/paper-toolbar/paper-toolbar.html">
+      <link rel="import" href="/bower_components/google-apis/google-apis.html">
+      <link rel="import" href="/bower_components/google-signin/google-signin.html">
+
+      <link rel="import" href="city-background.html">
+      <link rel="import" href="search-bar.html">
+      <link rel="import" href="weather-card.html">
+      <link rel="import" href="bookmarks-card.html">
+      <link rel="import" href="reddit-card.html">
+      <link rel="import" href="news-card.html">
+
+      <style>
+        :host {
+          display: block;
+          overflow: hidden;
+
+        }
+        .big {
+            --iron-icon-height: 72px;
+            --iron-icon-width: 72px;
+        }
+        paper-fab.blue {
+            --paper-fab-background: var(--paper-blue-500);
+            --paper-fab-keyboard-focus-background: var(--paper-blue-900);
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+        }
+        .deck {
+          margin: 0 150px;
+          height: 85vh;
+          width: 85%;
+          overflow: hidden;
+        }
+      </style>
+
+      <city-background></city-background>
+      <div class="vertical layout">
+          <div class="container">
+              <div class="horizontal center-justified layout">
+                  <search-bar></search-bar>
+              </div>
+          </div>
+          <div class="vertical layout wrap deck">
+                <weather-card lat="42.122837" lon="-80.07597" units="imperial"></weather-card>
+                <bookmarks-card></bookmarks-card>
+                <news-card></news-card>
+                <reddit-card></reddit-card>
+                <weather-card lat="40.718131" lon="-74.005250" units="imperial"></weather-card>
+          </div>
+      </div>
+      <paper-fab icon="icons:add" title="add" class="blue"></paper-fab>
+    </template>
+    <script>
+        Polymer({
+            is: 'later-cards',
+            // properties: {
+            //   isAuthorized:{
+            //     type: Boolean,
+            //     notify: true
+            //   },
+            //   signedIn: {
+            //     type: Boolean,
+            //     notify: true
+            //   }
+            // },
+        });
+    </script>
+</dom-module>
