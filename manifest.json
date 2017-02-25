@@ -1,7 +1,15 @@
 {
   "name": "Google Later",
+  "manifest_version": 2,
+  "version": "0.0.5",
   "short_name": "Google Later",
   "description": "Google Now in a New Tab Layout",
-  "start_url": "/",
-  "display": "standalone"
+  "chrome_url_overrides" : {
+    "newtab": "index.html"
+  },
+  "permissions": [
+    "tabs",
+    "bookmarks",
+    "storage"
+  ]
 }
