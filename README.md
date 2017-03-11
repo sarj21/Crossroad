@@ -1,6 +1,6 @@
-# \<Crossroad\>
+# \<Google-Later\>
 
-Google Now in a New Tab Layout
+Google Now for a Chrome new tab
 
 ## Install the Polymer-CLI
 

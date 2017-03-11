@@ -1,0 +1,32 @@
+{
+  "name": "google-later",
+  "version": "1.0.0",
+  "description": "Chrome extension that mimics Google Now",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sarj21/Google-Later.git"
+  },
+  "author": "sarj21",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sarj21/Google-Later/issues"
+  },
+  "homepage": "https://github.com/sarj21/Google-Later#readme",
+  "devDependencies": {
+    "css-slam": "^1.2.1",
+    "gulp": "^3.9.1",
+    "gulp-crisper": "^1.1.0",
+    "gulp-html-minifier": "^0.1.8",
+    "gulp-if": "^2.0.2",
+    "gulp-ignore": "^2.0.2",
+    "gulp-plumber": "^1.1.0",
+    "gulp-uglify": "^2.0.1",
+    "gulp-vulcanize": "^6.1.0",
+    "merge-stream": "^1.0.1",
+    "polymer-build": "^0.8.2",
+    "run-sequence": "^1.2.2"
+  }
+}

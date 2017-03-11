@@ -1,0 +1,17 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/later-app.html",
+  "fragments": [
+    "src/later-cards.html",
+    "src/later-settings.html"
+  ],
+  "sourceGlobs": [
+    "src/*.html",
+    "images/**/*",
+    "bower.json"
+  ],
+  "includeDependencies": [
+    "manifest.json",
+    "bower_components/webcomponentsjs/webcomponents-lite.min.js"
+  ]
+}
