@@ -1,30 +1,26 @@
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- Iron Elements -->
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+
+<!-- Paper Elements -->
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+
+<!-- Styling -->
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="shared-styles.html">
+
 <dom-module id="reddit-card">
   <template>
-    <link rel="import" href="/bower_components/paper-card/paper-card.html">
-    <link rel="import" href="/bower_components/paper-toolbar/paper-toolbar.html">
-    <link rel="import" href="/bower_components/iron-image/iron-image.html">
-    <link rel="import" href="/bower_components/iron-icons/communication-icons.html">
-    <link rel="import" href="/bower_components/paper-styles/paper-styles.html">
-    <iron-ajax
-      auto
-      url="http://www.reddit.com/.json"
-      handle-as="json"
-      on-response="_parseReddit"></iron-ajax>
+    <style is="custom-style" include="shared-styles"></style>
+    <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
     <style>
-      :host {
-        width: 31%;
-        min-width: 450px;
-        margin: 1%;
-        display: block;
-      }
-      paper-card {
-          width: 100%;
-      }
       iron-icon{
-        min-height: 70px;
-        min-width: 70px;
+        min-height: 60px;
+        min-width: 60px;
         padding: 10px;
       }
       a{
@@ -32,8 +28,8 @@
         color: black;
       }
       .card-content iron-image{
-        min-height: 90px;
-        min-width: 90px;
+        min-height: 70px;
+        min-width: 70px;
       }
       .box{
         padding: 5px 0;
@@ -41,18 +37,24 @@
       }
       .title{
         @apply(--paper-font-body2);
-        font-size: 16px;
-
+        line-height: normal;
+        font-size: 14px;
+        padding-bottom: 5px;
       }
       .subtitle{
         @apply(--paper-font-subtitle);
-        font-size: 14px;
+        font-size: 12px;
         color: var(--paper-grey-600);
       }
       .domain{
         @apply(--paper-font-caption);
       }
     </style>
+    <iron-ajax
+      auto
+      url="http://www.reddit.com/.json"
+      handle-as="json"
+      on-response="_parseReddit"></iron-ajax>
     <paper-card>
       <paper-toolbar class="center" style="background: #cee3f8"> <!-- reddit blue -->
         <iron-image src="/images/snoo.ico" style="padding-right: 5px;"></iron-image>

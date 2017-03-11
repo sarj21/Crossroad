@@ -1,30 +1,33 @@
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- Iron Elements -->
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-iconset/iron-iconset.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+
+<!-- Paper Elements -->
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+
+<!-- Neon Elements -->
+<link rel="import" href="../bower_components/neon-animation/neon-animation-runner-behavior.html">
+<link rel="import" href="../bower_components/neon-animation/animations/slide-from-bottom-animation.html">
+
+<!-- Custom Elements -->
+<link rel="import" href="weather-tab.html">
+
+<!-- Iconsets -->
+<link rel="import" href="iconsets/weather-iconset.html">
+
+<!-- Styling -->
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="shared-styles.html">
 
 <dom-module id="weather-card">
-    <link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout-classes.html">
-    <style include="iron-flex iron-flex-alignment"></style>
-    <link rel="import" href="/bower_components/iron-iconset/iron-iconset.html">
-    <link rel="import" href="/bower_components/iron-icon/iron-icon.html">
-    <link rel="import" href="/bower_components/paper-styles/typography.html">
-    <link rel="import" href="/bower_components/paper-card/paper-card.html">
-    <link rel="import" href="/src/weather-tab.html">
-    <!-- <link rel="import" href="weather-iconset.html"> -->
-
-    <iron-iconset name="weather" src="images/weather.svg" width="72" size="72"
-        icons="01d 01n 02d 02n 03d 03n 04d 04n 09d 09n 10d 10n 11d 11n 13d 13n 50d 50n err err">
-    </iron-iconset>
-
+  <template>
+    <style is="custom-style" include="shared-styles"></style>
+    <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
     <style>
-         :host {
-            width: 31%;
-            min-width: 450px;
-            margin: 1%;
-            display: block;
-        }
-
         paper-card {
-            width: 100%;
             padding: 15px;
         }
 
@@ -33,25 +36,25 @@
         }
 
         iron-icon {
-            --iron-icon-height: 72px;
-            --iron-icon-width: 72px;
-            margin: 20px;
+            --iron-icon-height: 60px;
+            --iron-icon-width: 60px;
+            margin: 10px;
         }
 
         .location {
             margin: 0;
-            font-size: 24px;
+            font-size: 18px;
             font-weight: 500;
             color: var(--paper-grey-600);
         }
 
         .datetime {
-            font-size: 16px;
+            font-size: 14px;
             color: var(--paper-grey-600);
         }
 
         .forecast {
-            font-size: 16px;
+            font-size: 14px;
             color: var(--paper-grey-600);
             margin-bottom: 15px;
             text-transform: capitalize;
@@ -79,48 +82,51 @@
             opacity: 0.2;
             margin: 40px 0 5px 0;
         }
+
+        .five-day   {
+          padding: 5px;
+        }
     </style>
-    <template>
-      <iron-ajax
+
+    <iron-ajax
       auto
       url="{{weatherUrl}}"
-       handle-as="json"
-       on-response="_formatWeatherResponse">
-      </iron-ajax>
+      handle-as="json"
+      on-response="_formatWeatherResponse">
+     </iron-ajax>
 
-      <iron-ajax
+     <iron-ajax
        auto
        url="{{fiveDayUrl}}"
        handle-as="json"
        on-response="_formatFiveDayWeatherResponse">
-      </iron-ajax>
+     </iron-ajax>
 
       <iron-ajax
         auto
         url="{{mapsUrl}}"
         handle-as="json"
         on-response="_formatLocation">
-        </iron-ajax>
-    <paper-card>
-      <div class="card-content">
+      </iron-ajax>
+      <paper-card>
+        <div class="card-content">
           <div class="layout vertical">
-              <h3 class="location">{{location}}</h3>
-              <span class="datetime"> [[_weekday()]] {{weather.time}}</span>
-              <span class="forecast"> {{weather.condition}} </span>
-              <div class="layout horizontal center" style="width: 100%">
-                <div class="flex"></div>
-                <iron-icon icon="weather:{{weather.icon}}"></iron-icon>
-                <h5 class="current-temp"> 28<span class="unit">&deg;{{unitsDisp.letter}}</span></h5>
-                <div class="flex"></div>
-                <div class="layout vertical info">
-                    <span>Wind: {{weather.wind}} {{unitsDisp.speed}}</span>
-                    <span>Humidity: {{weather.humidity}}%</span>
-                </div>
-                <div class="flex"></div>
+            <h3 class="location">{{location}}</h3>
+            <span class="datetime"> [[_weekday()]] {{weather.time}}</span>
+            <span class="forecast"> {{weather.condition}} </span>
+            <div class="layout horizontal center" style="width: 100%">
+              <div class="flex"></div>
+              <iron-icon icon="weather:{{weather.icon}}"></iron-icon>
+              <h5 class="current-temp"> 28<span class="unit">&deg;{{unitsDisp.letter}}</span></h5>
+              <div class="flex"></div>
+              <div class="layout vertical info">
+                  <span>Wind: {{weather.wind}} {{unitsDisp.speed}}</span>
+                  <span>Humidity: {{weather.humidity}}%</span>
               </div>
-              <div class="card-actions">
-
-              <div class="layout horizontal center five-day">
+              <div class="flex"></div>
+            </div>
+            <div class="card-actions five-day">
+              <div class="layout horizontal center">
                 <weather-tab high="{{fiveDay.day1.high}}" low="{{fiveDay.day1.low}}" icon="{{fiveDay.day1.icon}}" weekday="{{fiveDay.day1.weekday}}"></weather-tab>
                 <weather-tab high="{{fiveDay.day2.high}}" low="{{fiveDay.day2.low}}" icon="{{fiveDay.day2.icon}}" weekday="{{fiveDay.day2.weekday}}"></weather-tab>
                 <weather-tab high="{{fiveDay.day3.high}}" low="{{fiveDay.day3.low}}" icon="{{fiveDay.day3.icon}}" weekday="{{fiveDay.day3.weekday}}"></weather-tab>
@@ -129,14 +135,15 @@
               </div>
             </div>
           </div>
-      </div>
-    </paper-card>
-
+        </div>
+      </paper-card>
     </template>
-
     <script>
         Polymer({
             is: 'weather-card',
+            behaviors: [
+              Polymer.NeonAnimationRunnerBehavior
+            ],
             properties: {
                 lon: {},
                 lat: {},
@@ -173,8 +180,19 @@
                     type: Array,
                     value: {}
                 },
+                animationConfig: {
+                  value: function() {
+                    return {
+                      // provided by neon-animation/animations/scale-down-animation.html
+                      name: 'slide-from-bottom-animation',
+                      node: this
+                    }
+                  }
+                },
                 debug: {}
-
+            },
+            animate: function() {
+              this.playAnimation();
             },
             generateWeatherRequest: function(lat, lon, units) {
                 return ['http://api.openweathermap.org/data/2.5/weather?', 'lat=' + lat, 'lon=' + lon, 'units=' + units, 'APPID=4128da53cc2d057e58fe94de8f412267'].join('&');

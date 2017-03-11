@@ -1,9 +1,9 @@
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- Iron Elements -->
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
 
 <dom-module id="city-background">
-  <link rel="import" href="/bower_components/paper-styles/paper-styles.html">
-  <link rel="import" href="/bower_components/iron-image/iron-image.html">
-
     <template>
       <style>
         :host {
@@ -66,6 +66,7 @@
                 }
 
                 this.background = "/images/material-backgrounds/" + cities[Math.floor(Math.random() * 11)] + " (" + tod + ").png";
+                console.log(this.background);
             },
 
         });

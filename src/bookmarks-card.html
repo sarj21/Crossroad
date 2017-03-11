@@ -1,26 +1,27 @@
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- Paper Elements -->
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+
+<!-- Iron Elements -->
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+
+<!-- Neon Elements -->
+<link rel="import" href="../bower_components/neon-animation/neon-animation-runner-behavior.html">
+<link rel="import" href="../bower_components/neon-animation/animations/slide-from-bottom-animation.html">
+
+<!-- Styling -->
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 
 <dom-module id="bookmarks-card">
   <template>
-    <link rel="import" href="/bower_components/paper-card/paper-card.html">
-    <link rel="import" href="/bower_components/iron-image/iron-image.html">
-    <link rel="import" href="/bower_components/paper-button/paper-button.html">
-    <link rel="import" href="/bower_components/paper-toolbar/paper-toolbar.html">
-    <link rel="import" href="/bower_components/iron-icons/iron-icons.html">
-
-    <link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout-classes.html">
-    <style include="iron-flex iron-flex-alignment"></style>
-
+    <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
+    <style is="custom-style" include="shared-styles"></style>
     <style>
-      :host {
-        width: 31%;
-        min-width: 450px;
-        margin: 1%;
-        display: block;
-      }
-      paper-card {
-        width: 100%;
-      }
       iron-image{
         height: 50px;
         width: 50px;
@@ -29,6 +30,8 @@
         width: 25%;
         text-decoration: none;
         color: black;
+      }
+      paper-toolbar{
       }
       paper-button{
         margin: 5px;
@@ -48,19 +51,18 @@
         <iron-icon icon="icons:link"></iron-icon>
          <div>Bookmarks</div>
        </paper-toolbar>
-
-      <div class="card-content">
+       <div class="card-content">
         <div class="layout horizontal wrap" width="100%">
           <div class="flex">
           </div>
           <template is="dom-repeat" items="{{bookmarks}}">
-              <a href="{{item.link}}">
-                <paper-button class="layout vertical center">
-                    <iron-image src="https://icons.better-idea.org/icon?url={{item.link}}&size=50..64..120" preload sizing="cover">
-                    </iron-image>
-                    <div class="name" hidden="{{!show_names}}"> {{item.name}} </div>
-                </paper-button>
-              </a>
+            <a href="{{item.link}}">
+              <paper-button class="layout vertical center">
+                <iron-image src="https://icons.better-idea.org/icon?url={{item.link}}&size=50..64..120" preload sizing="cover">
+                </iron-image>
+                <div class="name" hidden="{{!show_names}}"> {{item.name}} </div>
+              </paper-button>
+            </a>
           </template>
           <div class="flex">
           </div>
@@ -71,6 +73,9 @@
   <script>
     Polymer({
       is: 'bookmarks-card',
+      behaviors: [
+        Polymer.NeonAnimationRunnerBehavior
+      ],
       properties: {
         bookmarks: {
           type: Array,
@@ -86,10 +91,22 @@
 
           ]
         },
-        show_names: {
+        animationConfig: {
+          value: function() {
+            return {
+              // provided by neon-animation/animations/scale-down-animation.html
+              name: 'slide-from-bottom-animation',
+              node: this
+            }
+          }
+        },
+        show_names:  {
           type: Boolean,
           value: false
         }
+      },
+      animate: function() {
+        this.playAnimation();
       }
     });
   </script>

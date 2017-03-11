@@ -1,103 +1,104 @@
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
 
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<!-- Styling -->
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="shared-styles.html">
+
+<link rel="import" href="iconsets/card-iconset.html">
 <dom-module id="news-card">
-    <template>
-      <link rel="import" href="card-iconset.html">
-      <link rel="import" href="/bower_components/paper-card/paper-card.html">
-      <link rel="import" href="/bower_components/paper-toolbar/paper-toolbar.html">
-      <link rel="import" href="/bower_components/paper-button/paper-button.html">
-      <link rel="import" href="/bower_components/paper-styles/paper-styles.html">
-      <style>
-        :host {
-          width: 31%;
-          min-width: 450px;
-          margin: 1%;
-          display: block;
-        }
-        paper-card {
-          width: 100%;
-        }
-        .card-content{
-          padding: 0;
-        }
-        a{
-          text-decoration: none;
-          color: black;
-        }
-        iron-image{
-          margin: 5px;
-        }
-        .article{
-          border-bottom: 1px solid var(--paper-grey-300);
-        }
-        .article iron-image{
-          min-width: 100px;
-          min-height: 50px;
-        }
-        .article paper-button{ text-transform: none; padding: 0}
-        .article .card-content{padding: 5px}
-        .article .article-title{@apply(--paper-font-headline); font-size: 16px; line-height: normal; padding-top: 10px;}
-        .article .timestamp{color:var(--paper-grey-600); font-size: 14px; padding-left: 1px;}
-        .article .src{color:var(--paper-green-600)}
-        .article .desc{color:var(--paper-grey-600); font-size: 14px; margin: 5px 2px}
-      </style>
-      <iron-ajax
-      auto
-      url="https://newsapi.org/v1/articles?source=google-news&sortBy=top&apiKey=a68c1e27a5ce426389a3a540b0bd57de"
-      method="GET"
-      handle-as="json"
-      on-response="_whatsTheNews">
+  <template>
+    <style is="custom-style" include="shared-styles"></style>
+    <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
+    <style>
+      .card-content {
+        padding: 0;
+      }
+      a{
+        text-decoration: none;
+        color: black;
+      }
+      iron-image {
+        margin: 5px;
+      }
+      paper-toolbar {
+        background-color: var(--paper-green-800);
+      }
+      .article {
+        border-bottom: 1px solid var(--paper-grey-300);
+      }
+      .article iron-image {
+        min-width: 80px;
+        min-height: 50px;
 
-      </iron-ajax>
-        <div class="vertical layout">
-          <paper-card>
-            <paper-toolbar>
-              <iron-icon icon="cards:news" style="fill: #ffffff; padding-right: 5px"></iron-icon>
-              <div>Top Stories</div>
-            </paper-toolbar>
-            <div class="card-content">
-              <template is="dom-repeat" items="{{news}}">
-                <div class="article">
-                    <a href="{{item.url}}"  style="width: 100%;">
-                    <paper-button>
-                      <div class="card-content">
-                        <div class="vertical layout center" style="width: 100%;">
-                          <div class="horizontal layout" style="width: 100%;">
-                            <iron-image sizing="cover" src="{{item.urlToImage}}"></iron-image>
-                            <div class="vertical layout" style="padding-left: 5px;">
-                              <div class="article-title"> {{item.title}} </div>
-                              <div class="timestamp"> <span class="src"> Google News &mdash; </span> [[_relTime(item)]]</div>
-                              <div class="desc">{{item.description}}</div>
-                            </div>
-                            <div class="flex"></div>
-                          </div>
+        max-height: 100px;
+        max-width: 100px;
+      }
+      .article paper-button{ text-transform: none; padding: 0}
+      .article .card-content{padding: 5px}
+      .article .article-title{@apply(--paper-font-headline); font-size: 14px; line-height: normal; padding-top: 10px;}
+      .article .timestamp{color:var(--paper-grey-600); font-size: 12px; padding-left: 1px;}
+      .article .src{color:var(--paper-green-600)}
+      .article .desc{color:var(--paper-grey-600); font-size: 12px; margin: 5px 2px}
+    </style>
+
+    <iron-ajax
+    auto
+    url="https://newsapi.org/v1/articles?source=google-news&sortBy=top&apiKey=a68c1e27a5ce426389a3a540b0bd57de"
+    method="GET"
+    handle-as="json"
+    on-response="_whatsTheNews">
+    </iron-ajax>
+
+    <div class="vertical layout">
+      <paper-card>
+        <paper-toolbar>
+          <iron-icon icon="cards:news" style="fill: #ffffff; padding-right: 5px"></iron-icon>
+          <div>Top Stories</div>
+        </paper-toolbar>
+        <div class="card-content">
+          <template is="dom-repeat" items="{{news}}">
+            <div class="article">
+                <a href="{{item.url}}"  style="width: 100%;">
+                <paper-button>
+                  <div class="card-content">
+                    <div class="vertical layout center" style="width: 100%;">
+                      <div class="horizontal layout" style="width: 100%;">
+                        <iron-image sizing="cover" src="{{item.urlToImage}}"></iron-image>
+                        <div class="vertical layout" style="padding-left: 5px;">
+                          <div class="article-title"> {{item.title}} </div>
+                          <div class="timestamp"> <span class="src"> Google News &mdash; </span> [[_relTime(item)]]</div>
+                          <div class="desc">{{item.description}}</div>
                         </div>
+                        <div class="flex"></div>
                       </div>
-                    </paper-button>
-                  </a>
-                </div>
-              </template>
-                <!-- <article-card article="{{news.article1}}"></article-card>
-                <article-card article="{{news.article2}}"></article-card>
-                <article-card article="{{news.article3}}"></article-card>
-                <article-card article="{{news.article4}}"></article-card> -->
+                    </div>
+                  </div>
+                </paper-button>
+              </a>
             </div>
-            <div class="card-actions">
-                <div class="layout horizontal">
-                  <div class="flex"></div>
-                  <a href="https://newsapi.org" style="height: 100%;">
-                    <paper-button style="font-size: 10px;">
-                    powered by News API
-                  </paper-button>
-                </a>
-              </div>
-            </div>
-          </paper-card>
+          </template>
         </div>
-    </template>
-    <script>
+        <div class="card-actions">
+          <div class="layout horizontal">
+            <div class="flex"></div>
+            <a href="https://newsapi.org" style="height: 100%;">
+              <paper-button style="font-size: 10px;">
+                powered by News API
+              </paper-button>
+            </a>
+          </div>
+        </div>
+      </paper-card>
+    </div>
+  </template>
+  <script>
         Polymer({
             is: 'news-card',
             properties: {

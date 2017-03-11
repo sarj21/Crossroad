@@ -4,36 +4,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <title>Later</title>
-    <meta name="description" content="Crossroad description">
+    <title>Google Later</title>
+    <meta name="description" content="Google Now for a Chrome new tab">
+
+    <link rel="icon" href="/images/favicon.ico">
 
     <!-- See https://goo.gl/OOhYW5 -->
     <link rel="manifest" href="/manifest.json">
 
-    <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 
     <link rel="import" href="/src/later-app.html">
+
+
   </head>
-  <style>
-  </style>
   <body class="fullbleed">
-    <later-app></later-app>
-    <!--
-      Custon set of icons using PNGs from the lovely Naman Rastogi
-      https://material.uplabs.com/techguynr
-      This should make the icons I use in the weather card
-    -->
-<!--<iron-iconset name="weather" src="images/weather-icons.png" width="420" size="24"
-        icons="clear-day cloudy clear-night haze-day
-               mostly-cloudy-day haze haze-night mostly-cloudy-night
-               rain-snow partly-cloudy-night rain-snow-night rain
-               rain-night snow-day snow storm
-               thunder-night thunder-day storm-night storm-day
-               unknown thunder windy-night windy-day
-               windy">
-    </iron-iconset> -->
-
-
-
+    <later-app unresolved></later-app>
   </body>
 </html>

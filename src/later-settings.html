@@ -1,24 +1,22 @@
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- Iron Elements -->
+<link rel="import" href="../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+
+<!-- Paper Elements -->
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+
+<!-- Styling -->
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 
 <dom-module id="later-settings">
-    <template>
-    <link rel="import" href="/bower_components/paper-styles/paper-styles.html">
-    <link rel="import" href="card-iconset.html">
-    <link rel="import" href="weather-iconset.html">
-
-    <link rel="import" href="/bower_components/paper-card/paper-card.html">
-    <link rel="import" href="/bower_components/paper-input/paper-input.html">
-    <link rel="import" href="/bower_components/paper-item/paper-item.html">
-    <link rel="import" href="/bower_components/paper-checkbox/paper-checkbox.html">
-    <link rel="import" href="/bower_components/paper-toggle-button/paper-toggle-button.html">
-    <link rel="import" href="/bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
-      <link rel="import" href="/bower_components/paper-listbox/paper-listbox.html">
-    <link rel="import" href="/bower_components/paper-button/paper-button.html">
-
-    <link rel="import" href="/bower_components/iron-icons/iron-icons.html">
-    <link rel="import" href="/bower_components/google-signin/google-signin.html">
-
-    <link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+  <template>
     <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
     <style>
       :host {
@@ -160,35 +158,35 @@
           </paper-card>
 
           <paper-card class="selected-cards">
-            <paper-button onclick="{{_saveOptions}}" raised>Save</paper-button>
+            <paper-button raised>Save</paper-button>
 
           </paper-card>
         </div>
     </div>
   </template>
-    <script>
-        Polymer({
-            is: 'later-settings',
-            properties: {
-              weatherActive: {
-                type: Boolean,
-                value: true
-              },
-              newsActive: {
-                type: Boolean,
-                value: true
-              },
-              redditActive: {
-                type: Boolean,
-                value: true
-              },
-              bookmarksActive: {
-                type: Boolean,
-                value: true
-              }
+  <script>
+      Polymer({
+          is: 'later-settings',
+          properties: {
+            weatherActive: {
+              type: Boolean,
+              value: true
+            },
+            newsActive: {
+              type: Boolean,
+              value: true
+            },
+            redditActive: {
+              type: Boolean,
+              value: true
+            },
+            bookmarksActive: {
+              type: Boolean,
+              value: true
             }
-        });
-    </script>
+          }
+      });
+  </script>
 </dom-module>
 
 <!-- <form is="iron-form" method="get" action="/" id="basic">
